@@ -1,0 +1,61 @@
+# Fichiers compilés
+*.o
+*.out
+*.a
+*.so
+*.exe
+*.dll
+*.dylib
+
+# Fichiers de dépendances générés par certains compilateurs
+*.d
+*.gcno
+*.gcda
+*.gcov
+
+# Fichiers de profiling
+gmon.out
+
+# Exécutables courants
+a.out
+
+# Fichiers temporaires
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Dossiers de build
+/build/
+/bin/
+/obj/
+/out/
+
+# Fichiers générés par CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+
+# Fichiers générés par autotools
+autom4te.cache/
+aclocal.m4
+configure
+config.log
+config.status
+
+# IDE / éditeurs
+.vscode/
+.idea/
+*.code-workspace
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Fichiers de coverage
+coverage/
+*.lcov
