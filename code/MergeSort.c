@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void merge(void *array, size_t *tmp, size_t start, size_t middle, size_t end, int (*compare)(const void *, size_t i, size_t j))
+static void merge(void *array, size_t *tmp, size_t start, size_t middle, size_t end, int (*compare)(const void *, size_t i, size_t j));
+static size_t *mergeS(void *array, size_t *tmp, size_t start, size_t end, int (*compare)(const void *, size_t i, size_t j));
+static void mergeSort(void *array, size_t length, int (*compare)(const void *, size_t i, size_t j), void (*swap)(void *array, size_t i, size_t j));
+
+static void merge(void *array, size_t *tmp, size_t start, size_t middle, size_t end, int (*compare)(const void *, size_t i, size_t j))
 {
     size_t sorted_size = end - start;
     size_t *sorted = (size_t *)malloc(sorted_size * sizeof(size_t));
@@ -48,7 +52,7 @@ void merge(void *array, size_t *tmp, size_t start, size_t middle, size_t end, in
     free(sorted);
 }
 
-size_t *mergeS(void *array, size_t *tmp, size_t start, size_t end, int (*compare)(const void *, size_t i, size_t j))
+static size_t *mergeS(void *array, size_t *tmp, size_t start, size_t end, int (*compare)(const void *, size_t i, size_t j))
 {
     if (end - start > 1)
     {
@@ -63,25 +67,61 @@ size_t *mergeS(void *array, size_t *tmp, size_t start, size_t end, int (*compare
     return tmp;
 }
 
-void mergeSort(void *array, size_t length, int (*compare)(const void *, size_t i, size_t j), void (*swap)(void *array, size_t i, size_t j))
+static void mergeSort(void *array, size_t length, int (*compare)(const void *, size_t i, size_t j), void (*swap)(void *array, size_t i, size_t j))
 {
 
     size_t *tmp = (size_t *)malloc(length * sizeof(size_t));
+    size_t *idx = (size_t *)malloc(length * sizeof(size_t));
+
+    if (tmp == NULL || idx == NULL)
+    {
+        printf("MEMORY ALLOCATION ERROR !\n");
+    }
 
     for (size_t i = 0; i < length; i++)
+    {
+        idx[i] = i;
         tmp[i] = i;
+    }
 
     // tmp sorted
     mergeS(array, tmp, 0, length, compare);
 
-    printf("tmp = ");
-    for (size_t i = 0; i < length; i++)
-        printf("%zu ", tmp[i]);
-    printf("\n");
+    // printf("tmp = ");
+    // for (size_t i = 0; i < length; i++)
+    //     printf("%zu ", tmp[i]);
+    // printf("\n");
+
+    // printf("idx = ");
+    // for (size_t i = 0; i < length; i++)
+    //     printf("%zu ", idx[i]);
+    // printf("\n");
 
     // We need to finish here !
     // TMP is in the correct order. I just need to find a way to swap the values in array. I am too tired for that now.
 
+    for (size_t i = 0; i < length - 1; i++)
+    {
+        size_t j = idx[tmp[i]];
+        swap(array, j, i);
+
+        size_t tmp_v = idx[i];
+        idx[i] = idx[j];
+        idx[j] = tmp_v;
+
+        // printf("iteration: %zu <---------->\n", i);
+
+        // printf("tmp = ");
+        // for (size_t i = 0; i < length; i++)
+        //     printf("%zu ", tmp[i]);
+        // printf("\n");
+
+        // printf("idx = ");
+        // for (size_t i = 0; i < length; i++)
+        //     printf("%zu ", idx[i]);
+        // printf("\n");
+    }
+    // printf("FINAL <------------>\n\n");
     free(tmp);
 }
 

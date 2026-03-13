@@ -70,6 +70,8 @@ int main(void)
     printf("After sort:\n");
     printArrayInt(A, length);
 
+    printf("\n");
+
     char B[] = {'d', 'a', 'x', 'e', 'f'};
     size_t length1 = sizeof(B) / sizeof(B[0]);
 
