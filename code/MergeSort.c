@@ -10,6 +10,12 @@ static void merge(void *array, size_t *tmp, size_t start, size_t middle, size_t 
     size_t sorted_size = end - start;
     size_t *sorted = (size_t *)malloc(sorted_size * sizeof(size_t));
 
+    if (sorted == NULL)
+    {
+        fprintf(stderr, "MEMORY ALLOCATION ERROR\n");
+        exit(1);
+    }
+
     size_t i = start;
     size_t j = middle;
 
@@ -75,7 +81,8 @@ static void mergeSort(void *array, size_t length, int (*compare)(const void *, s
 
     if (tmp == NULL || idx == NULL)
     {
-        printf("MEMORY ALLOCATION ERROR !\n");
+        fprintf(stderr, "MEMORY ALLOCATION ERROR !\n");
+        exit(1);
     }
 
     for (size_t i = 0; i < length; i++)
