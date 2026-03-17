@@ -11,9 +11,8 @@ size_t binarySearchLow(void *array, size_t length, void *key, int (*compare)(con
     while (left < right)
     {
         size_t middle = (size_t)(left + right) / 2;
-        int cmp = compare(array, middle, key);
 
-        if (cmp < 0) // if array[middle] < key --> search the right
+        if (compare(array, middle, key) < 0) // if array[middle] < key --> search the right
             left = middle + 1;
         else // if array[middle] >= key --> search the left
             right = middle;
