@@ -106,29 +106,28 @@ int main(void)
 
     printf("\n");
 
-    // char B[] = {'d', 'a', 'x', 'e', 'f'};
-    // size_t length1 = sizeof(B) / sizeof(B[0]);
+    char B[] = {'d', 'a', 'x', 'e', 'f'};
+    size_t length1 = sizeof(B) / sizeof(B[0]);
 
-    // printf("Before sorting:\n");
-    // printArrayChar(B, length1);
+    printf("Before sorting:\n");
+    printArrayChar(B, length1);
 
-    // sort(B, length1, compareChar, swapChar);
+    sort(B, length1, compareChar, swapChar);
 
-    // printf("After sorting: \n");
-    // printArrayChar(B, length1);
+    printf("After sorting: \n");
+    printArrayChar(B, length1);
 
-    // char *C[] = {"Alexandre", "Zoe", "Frederic", "Alexandre"};
-    // size_t length2 = sizeof(C) / sizeof(C[0]);
+    char *C[] = {"Alexandre", "Zoe", "Frederic", "Alexandre"};
+    size_t length2 = sizeof(C) / sizeof(C[0]);
 
-    // sort(C, length2, compareStr, swapStr);
+    sort(C, length2, compareStr, swapStr);
 
-    // printArrayStr(C, length2);
+    printArrayStr(C, length2);
 
-    // char test[] = {"c", "a", "d", "b"};
-    // char test[] = {'c', 'a', 'd', 'b'};
-    // size_t length = sizeof(test) / sizeof(test[0]);
-    // sort(test, length, compareChar, swapChar);
-    // printArrayChar(test, length);
+    char test[] = {'c', 'a', 'd', 'b'};
+    size_t length3 = sizeof(test) / sizeof(test[0]);
+    sort(test, length3, compareChar, swapChar);
+    printArrayChar(test, length);
 
     int arr[] = {38, 27, 43, 3, 9, 82, 10, -4, 7, 16, 5, 12, 1, 99, 54, -20, 33, 2, 18, 6};
     int n = sizeof(arr) / sizeof(arr[0]);

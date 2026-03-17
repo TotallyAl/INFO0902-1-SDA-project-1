@@ -75,11 +75,14 @@ static size_t *mergeS(void *array, size_t *tmp, size_t start, size_t end, int (*
 
 static void mergeSort(void *array, size_t length, int (*compare)(const void *, size_t i, size_t j), void (*swap)(void *array, size_t i, size_t j))
 {
-
+    // tmp stores the permutation produced by mergeS
     size_t *tmp = (size_t *)malloc(length * sizeof(size_t));
+    // idx stores the current state of the *array
     size_t *idx = (size_t *)malloc(length * sizeof(size_t));
+    // pos stores the inverse mapping of idx
+    size_t *pos = (size_t *)malloc(length * sizeof(size_t));
 
-    if (tmp == NULL || idx == NULL)
+    if (tmp == NULL || idx == NULL || pos == NULL)
     {
         fprintf(stderr, "MEMORY ALLOCATION ERROR !\n");
         exit(1);
@@ -89,49 +92,61 @@ static void mergeSort(void *array, size_t length, int (*compare)(const void *, s
     {
         idx[i] = i;
         tmp[i] = i;
+        pos[i] = i;
     }
 
     // tmp sorted
     mergeS(array, tmp, 0, length, compare);
 
-    // printf("tmp = ");
-    // for (size_t i = 0; i < length; i++)
-    //     printf("%zu ", tmp[i]);
-    // printf("\n");
+    // for (size_t i = 0; i < length - 1; i++)
+    // {
+    //     size_t j = idx[tmp[i]];
+    //     swap(array, j, i);
 
-    // printf("idx = ");
-    // for (size_t i = 0; i < length; i++)
-    //     printf("%zu ", idx[i]);
-    // printf("\n");
+    //     size_t tmp_v = idx[i];
+    //     idx[i] = idx[j];
+    //     idx[j] = tmp_v;
 
-    // We need to finish here !
-    // TMP is in the correct order. I just need to find a way to swap the values in array. I am too tired for that now.
+    //     printf("iteration: %zu <---------->\n", i);
+
+    //     printf("tmp = ");
+    //     for (size_t i = 0; i < length; i++)
+    //         printf("%zu ", tmp[i]);
+    //     printf("\n");
+
+    //     printf("idx = ");
+    //     for (size_t i = 0; i < length; i++)
+    //         printf("%zu ", idx[i]);
+    //     printf("\n");
+    // }
+    // printf("FINAL <------------>\n\n");
+    // free(tmp);
+    // free(idx);
 
     for (size_t i = 0; i < length - 1; i++)
     {
-        size_t j = idx[tmp[i]];
-        swap(array, j, i);
+        // tmp[i] = index of the element (in the original array) that should be placed at position i in the sorted array
+        size_t orig = tmp[i];
+        // pos[origin] = current position of this element in the array
+        size_t j = pos[orig];
 
-        size_t tmp_v = idx[i];
-        idx[i] = idx[j];
-        idx[j] = tmp_v;
+        if (j != i)
+        {
+            swap(array, j, i);
 
-        // printf("iteration: %zu <---------->\n", i);
+            size_t displaced = idx[i]; // qui était en i et part en j ?
 
-        // printf("tmp = ");
-        // for (size_t i = 0; i < length; i++)
-        //     printf("%zu ", tmp[i]);
-        // printf("\n");
-
-        // printf("idx = ");
-        // for (size_t i = 0; i < length; i++)
-        //     printf("%zu ", idx[i]);
-        // printf("\n");
+            // Mettre à jour les deux tableaux
+            idx[j] = displaced;
+            idx[i] = orig;
+            pos[displaced] = j;
+            pos[orig] = i;
+        }
     }
-    // printf("FINAL <------------>\n\n");
     free(tmp);
+    free(pos);
+    free(idx);
 }
-
 void sort(void *array, size_t length, int (*compare)(const void *, size_t i, size_t j), void (*swap)(void *array, size_t i, size_t j))
 {
     mergeSort(array, length, compare, swap);
