@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include "PQ.h"
 
@@ -36,9 +37,9 @@ static size_t rightChild(size_t i)
 
 static void shiftUp(PQ *pq, size_t i)
 {
-    size_t p = parent(i);
-    while (i > 0 && pq->compare(pq->heap[i], pq->heap[p]))
+    while (i > 0 && pq->compare(pq->heap[i], pq->heap[parent(i)]) > 0)
     {
+        size_t p = parent(i);
         swap(pq, i, p);
         i = p;
     }
@@ -47,11 +48,11 @@ static void shiftUp(PQ *pq, size_t i)
 static void shiftDown(PQ *pq, size_t i)
 {
     // The element with the lowest priority is at the top of the stack.
-    size_t largest = i;
-    size_t left_c;
-    size_t right_c;
     while (true)
     {
+        size_t largest = i;
+        size_t left_c = leftChild(i);
+        size_t right_c = rightChild(i);
         /*
         We need to check that:
             1. The element has children.
@@ -60,10 +61,10 @@ static void shiftDown(PQ *pq, size_t i)
 
         If none of the children are larger than the element -> we are done
         */
-        if (left_c < pq->size && pq->compare(pq->heap[i], pq->heap[left_c]) > 0)
+        if (left_c < pq->size && pq->compare(pq->heap[left_c], pq->heap[largest]) > 0)
             largest = left_c;
 
-        if (right_c < pq->size && pq->compare(pq->heap[i], pq->heap[right_c]) > 0)
+        if (right_c < pq->size && pq->compare(pq->heap[right_c], pq->heap[largest]) > 0)
             largest = right_c;
 
         if (largest == i)
@@ -121,7 +122,7 @@ bool pqInsert(PQ *pq, void *obj)
     return true;
 }
 
-void *pqGetmax(const PQ *pq)
+void *pqGetMax(const PQ *pq)
 {
     if (pq->size == 0)
     {
