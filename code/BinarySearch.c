@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "BinarySearch.h"
 
 size_t binarySearchLow(void *array, size_t length, void *key, int (*compare)(const void *, size_t i, void *))
 {
