@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stddef.h>
 #include <stdbool.h>
 #include <stdlib.h>
 
@@ -110,8 +109,8 @@ void pqFree(PQ *pq)
 
 bool pqInsert(PQ *pq, void *obj)
 {
-
-    if (pq->size >= pq->capacity) // There isn't enough memory allocated to the priority queue.
+    // There isn't enough memory allocated to the priority queue.
+    if (pq->capacity < pq->size)
         return false;
 
     pq->heap[pq->size] = obj; // We add the new element at the end of the list.
@@ -142,7 +141,7 @@ void *pqExtractMax(PQ *pq)
         exit(1);
     }
     // We put the element with the lowest priority at the top of the stack and we shift it down to the correct area.
-    pq->size--; // We first need to decrement size to get the element. Otherwise, we'll get data that is outside the heap.
+    pq->size--; // We first need to decrement size to get the element. Otherwise, we'll get data that is outside the heap. (important bug)
     pq->heap[0] = pq->heap[pq->size];
     shiftDown(pq, 0);
 

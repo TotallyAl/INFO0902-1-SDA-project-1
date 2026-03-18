@@ -1,11 +1,11 @@
 
-/* Interface for a (maximum) priority queue. The objects are of type 'void *' and 
+/* Interface for a (maximum) priority queue. The objects are of type 'void *' and
  * will be compared using the 'compare' function given as argument to the function
  * pqCreate.
  */
 
-#ifndef  PQ_H_DEFINED
-#define  PQ_H_DEFINED
+#ifndef PQ_H_DEFINED
+#define PQ_H_DEFINED
 
 #include <stddef.h>
 #include <stdbool.h>
@@ -21,7 +21,7 @@ typedef struct PQ_t PQ;
  * compare          A function to compare the priorities of two object. The
  *                  function returns 0 if the two priorities are equal, an
  *                  integer greater (resp. lower) than zero if the priority
- *                  of the first argument is greater (resp. lower) than the 
+ *                  of the first argument is greater (resp. lower) than the
  *                  priority of the second argument.
  * NOTE
  * The returned structure should be cleaned with `pqFree` after
@@ -38,7 +38,7 @@ PQ *pqCreate(size_t capacity, int (*compare)(const void *, const void *));
  * PARAMETERS
  * pq              The priority queue to free
  * ------------------------------------------------------------------------- */
-void pqFree(PQ* pq);
+void pqFree(PQ *pq);
 
 /* ------------------------------------------------------------------------- *
  * Inserts an object in the priority queue. If the queue is full,
@@ -53,7 +53,7 @@ void pqFree(PQ* pq);
  * opened           True if the object was successfully added, false if the
  *   			    queue is full
  * ------------------------------------------------------------------------- */
-bool pqInsert(PQ* pq, void *obj);
+bool pqInsert(PQ *pq, void *obj);
 
 /* ------------------------------------------------------------------------- *
  * Returns the object of maximum priority currently stored in the priority queue.
@@ -66,10 +66,10 @@ bool pqInsert(PQ* pq, void *obj);
  * RETURN
  * max              The object of maximum priority
  * ------------------------------------------------------------------------- */
-void *pqGetMax(const PQ* pq);
+void *pqGetMax(const PQ *pq);
 
 /* ------------------------------------------------------------------------- *
- * Returns the object of aximum priority currently stored in the priority 
+ * Returns the object of aximum priority currently stored in the priority
  * queue and extracts it from the queue. The queue must contain at least
  * one object (otherwise calling the function results in an undefined behavior).
  *
@@ -79,7 +79,7 @@ void *pqGetMax(const PQ* pq);
  * RETURN
  * max              The object of maximum priority
  * ------------------------------------------------------------------------- */
-void *pqExtractMax(PQ* pq);
+void *pqExtractMax(PQ *pq);
 
 /* ------------------------------------------------------------------------- *
  * Replaces the object of maximum priority with a new object. The queue
@@ -102,7 +102,7 @@ void pqReplaceMax(PQ *pq, void *obj);
  * RETURN
  * size 		    The size of the queue
  * ------------------------------------------------------------------------- */
-size_t pqSize(const PQ* pq);
+size_t pqSize(const PQ *pq);
 
 /* ------------------------------------------------------------------------- *
  * Returns the maximum capacity of the queue.
@@ -113,7 +113,6 @@ size_t pqSize(const PQ* pq);
  * RETURN
  * capacity 	   The capacity of the queue
  * ------------------------------------------------------------------------- */
-size_t pqCapacity(const PQ* pq);
-
+size_t pqCapacity(const PQ *pq);
 
 #endif // PQ_H_DEFINED
