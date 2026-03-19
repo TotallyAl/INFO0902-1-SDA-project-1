@@ -30,7 +30,7 @@ struct AC_t
 */
 
 int compareWeights(const void *e1, const void *e2);
-size_t commonPrefix(AC *ac, char *query, size_t idx, size_t k);
+size_t commonPrefix(AC *ac, char *query, size_t idx);
 int compareTerm(const void *array, size_t i, size_t j);
 void swapTerm(void *array, size_t i, size_t j);
 int compareBSTerm(const void *array, size_t i, void *key);
@@ -40,17 +40,17 @@ int compareWeights(const void *e1, const void *e2)
     const Term *t1 = (const Term *)e1;
     const Term *t2 = (const Term *)e2;
     if (t1->weight < t2->weight)
-        return -1;
-    if (t1->weight > t2->weight)
         return 1;
+    if (t1->weight > t2->weight)
+        return -1;
     return 0;
 }
 
-size_t commonPrefix(AC *ac, char *query, size_t idx, size_t k)
+size_t commonPrefix(AC *ac, char *query, size_t idx)
 {
     size_t queryLen = strlen(query);
     size_t m = 0;
-    while (idx + m < ac->ta->length && m < k)
+    while (idx + m < ac->ta->length)
     {
         if (strncmp(ac->ta->array[idx + m].text, query, queryLen) == 0)
             m++;
@@ -127,7 +127,7 @@ size_t acComplete(AC *ac, char *query, size_t k, char **results)
 
     size_t idx = binarySearchLow(ac->ta->array, ac->ta->length, query, compareBSTerm);
 
-    size_t m = commonPrefix(ac, query, idx, k);
+    size_t m = commonPrefix(ac, query, idx);
 
     // There are no terms that share the prefix *query
     if (m == 0)
@@ -146,12 +146,24 @@ size_t acComplete(AC *ac, char *query, size_t k, char **results)
         exit(1);
     }
 
-    for (size_t i = 0; i < m; i++)
-        pqInsert(pq, &ac->ta->array[idx + i]);
+    // for (size_t i = 0; i < m; i++)
+    //     pqInsert(pq, &ac->ta->array[idx + i]);
+
+    // for (size_t i = 0; i < m; i++)
+    //     results[i] = ((Term *)pqExtractMax(pq))->text;
 
     for (size_t i = 0; i < m; i++)
+    {
+        if (pqSize(pq) < k)
+            pqInsert(pq, &ac->ta->array[idx + i]);
+        else if (compareWeights(&ac->ta->array[idx + i], pqGetMax(pq)) > 0)
+            pqReplaceMax(pq, &ac->ta->array[idx + i]);
+    }
+
+    size_t nb = pqSize(pq);
+    for (size_t i = 0; i < nb; i++)
         results[i] = ((Term *)pqExtractMax(pq))->text;
 
     pqFree(pq);
-    return m;
+    return nb;
 }

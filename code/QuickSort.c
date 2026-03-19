@@ -11,7 +11,8 @@ static void quickSort(void *array, size_t start, size_t end, int (*compare)(cons
 
     size_t pivot = end - 1;
 
-    size_t j = start, i = start;
+    size_t j = start;
+    size_t i = start;
 
     while (j != pivot)
     {

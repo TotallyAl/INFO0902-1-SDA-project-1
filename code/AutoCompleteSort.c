@@ -29,7 +29,7 @@ int compareBSTerm(const void *array, size_t i, void *key);
 int compareTermWeight(const void *array, size_t i, size_t j);
 void swapTermWeight(void *array, size_t i, size_t j);
 void printArrayTerms(Term *terms, size_t length);
-size_t commonPrefix(AC *ac, char *query, size_t idx, size_t k);
+size_t commonPrefix(AC *ac, char *query, size_t idx);
 
 /*
 
@@ -103,11 +103,11 @@ void swapTerm(void *array, size_t i, size_t j)
     A[j] = tmp;
 }
 
-size_t commonPrefix(AC *ac, char *query, size_t idx, size_t k)
+size_t commonPrefix(AC *ac, char *query, size_t idx)
 {
     size_t queryLen = strlen(query);
     size_t m = 0;
-    while (idx + m < ac->ta->length && m < k)
+    while (idx + m < ac->ta->length)
     {
         if (strncmp(ac->ta->array[idx + m].text, query, queryLen) == 0)
             m++;
@@ -151,7 +151,7 @@ size_t acComplete(AC *ac, char *query, size_t k, char **results)
 
     size_t idx = binarySearchLow(ac->ta->array, ac->ta->length, query, compareBSTerm);
 
-    size_t m = commonPrefix(ac, query, idx, k);
+    size_t m = commonPrefix(ac, query, idx);
 
     // There are no terms that share the prefix *query
     if (m == 0)
@@ -175,9 +175,10 @@ size_t acComplete(AC *ac, char *query, size_t k, char **results)
     sort(terms, m, compareTermWeight, swapTermWeight);
 
     // 4. On stocke les résultats dans **results.
-    for (size_t i = 0; i < m; i++)
+    size_t limit = (m < k) ? m : k;
+    for (size_t i = 0; i < limit; i++)
         results[i] = terms[i].text;
 
     free(terms);
-    return m;
+    return limit;
 }

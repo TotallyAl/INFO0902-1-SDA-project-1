@@ -27,6 +27,12 @@ autocompletepq_qs: main.o Terms.o QuickSort.o AutoCompletePQ.o BinarySearch.o PQ
 autocompletepq_ms: main.o Terms.o MergeSort.o AutoCompletePQ.o BinarySearch.o PQ.o
 	$(CC) -o $@ $^ $(LDFLAGS) -g -lncurses
 
+benchmark_qs: timing.o Terms.o QuickSort.o
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+benchmark_ms: timing.o Terms.o MergeSort.o
+	$(CC) -o $@ $^ $(LDFLAGS)
+
 AutoCompleteSort.o: AutoCompleteSort.c AutoComplete.h Terms.h Sort.h BinarySearch.h
 AutoCompletePQ.o: AutoCompletePQ.c AutoComplete.h Terms.h Sort.h BinarySearch.h
 AutoCompleteLinear.o: AutoCompleteLinear.c AutoComplete.h Terms.h
@@ -36,3 +42,4 @@ MergeSort.o: MergeSort.c Sort.h
 QuickSort.o: QuickSort.c Sort.h
 BinarySearch.o: BinarySearch.c BinarySearch.h
 PQ.o: PQ.c PQ.h
+timing.o: timing.c Sort.h Terms.h

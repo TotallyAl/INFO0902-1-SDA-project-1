@@ -110,7 +110,7 @@ void pqFree(PQ *pq)
 bool pqInsert(PQ *pq, void *obj)
 {
     // There isn't enough memory allocated to the priority queue.
-    if (pq->capacity < pq->size)
+    if (pq->capacity <= pq->size)
         return false;
 
     pq->heap[pq->size] = obj; // We add the new element at the end of the list.

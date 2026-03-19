@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "Sort.h"
+
 static void merge(void *array, size_t *tmp, size_t start, size_t middle, size_t end, int (*compare)(const void *, size_t i, size_t j));
 static size_t *mergeS(void *array, size_t *tmp, size_t start, size_t end, int (*compare)(const void *, size_t i, size_t j));
 static void mergeSort(void *array, size_t length, int (*compare)(const void *, size_t i, size_t j), void (*swap)(void *array, size_t i, size_t j));
@@ -95,33 +97,7 @@ static void mergeSort(void *array, size_t length, int (*compare)(const void *, s
         pos[i] = i;
     }
 
-    // tmp sorted
     mergeS(array, tmp, 0, length, compare);
-
-    // for (size_t i = 0; i < length - 1; i++)
-    // {
-    //     size_t j = idx[tmp[i]];
-    //     swap(array, j, i);
-
-    //     size_t tmp_v = idx[i];
-    //     idx[i] = idx[j];
-    //     idx[j] = tmp_v;
-
-    //     printf("iteration: %zu <---------->\n", i);
-
-    //     printf("tmp = ");
-    //     for (size_t i = 0; i < length; i++)
-    //         printf("%zu ", tmp[i]);
-    //     printf("\n");
-
-    //     printf("idx = ");
-    //     for (size_t i = 0; i < length; i++)
-    //         printf("%zu ", idx[i]);
-    //     printf("\n");
-    // }
-    // printf("FINAL <------------>\n\n");
-    // free(tmp);
-    // free(idx);
 
     for (size_t i = 0; i < length - 1; i++)
     {
