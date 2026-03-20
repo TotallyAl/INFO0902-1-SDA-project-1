@@ -110,9 +110,8 @@ static void mergeSort(void *array, size_t length, int (*compare)(const void *, s
         {
             swap(array, j, i);
 
-            size_t displaced = idx[i]; // qui était en i et part en j ?
+            size_t displaced = idx[i];
 
-            // Mettre à jour les deux tableaux
             idx[j] = displaced;
             idx[i] = orig;
             pos[displaced] = j;

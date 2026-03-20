@@ -146,12 +146,6 @@ size_t acComplete(AC *ac, char *query, size_t k, char **results)
         exit(1);
     }
 
-    // for (size_t i = 0; i < m; i++)
-    //     pqInsert(pq, &ac->ta->array[idx + i]);
-
-    // for (size_t i = 0; i < m; i++)
-    //     results[i] = ((Term *)pqExtractMax(pq))->text;
-
     for (size_t i = 0; i < m; i++)
     {
         if (pqSize(pq) < k)

@@ -22,7 +22,6 @@ struct AC_t
     TermArray *ta;
 };
 
-static void printAllTerms(const TermArray *ta);
 int compareTerm(const void *array, size_t i, size_t j);
 void swapTerm(void *array, size_t i, size_t j);
 int compareBSTerm(const void *array, size_t i, void *key);
@@ -36,12 +35,6 @@ size_t commonPrefix(AC *ac, char *query, size_t idx);
     Helper methods
 
 */
-
-void printArrayTerms(Term *terms, size_t length)
-{
-    for (size_t i = 0; i < length; i++)
-        printf("(%ld) %s\n", terms[i].weight, terms[i].text);
-}
 
 int compareTermWeight(const void *array, size_t i, size_t j)
 {
@@ -61,14 +54,6 @@ void swapTermWeight(void *array, size_t i, size_t j)
     Term tmp = terms[i];
     terms[i] = terms[j];
     terms[j] = tmp;
-}
-
-static void printAllTerms(const TermArray *ta)
-{
-    for (size_t i = 0; i < ta->length; i++)
-    {
-        printf("(%ld) %s\n", ta->array[i].weight, ta->array[i].text);
-    }
 }
 
 int compareBSTerm(const void *array, size_t i, void *key)
@@ -131,7 +116,6 @@ AC *acCreate(TermArray *ta)
         fprintf(stderr, "acCreate: ALLOCATION ERROR.\n");
         exit(1);
     }
-    // sortAlphabeticalOrder(ta);
     sort(ta->array, ta->length, compareTerm, swapTerm);
 
     ac->ta = ta;
