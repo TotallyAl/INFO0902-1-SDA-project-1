@@ -39,9 +39,9 @@ int compareWeights(const void *e1, const void *e2)
 {
     const Term *t1 = (const Term *)e1;
     const Term *t2 = (const Term *)e2;
-    if (t1->weight < t2->weight)
-        return 1;
     if (t1->weight > t2->weight)
+        return 1;
+    if (t1->weight < t2->weight)
         return -1;
     return 0;
 }
@@ -150,7 +150,7 @@ size_t acComplete(AC *ac, char *query, size_t k, char **results)
     {
         if (pqSize(pq) < k)
             pqInsert(pq, &ac->ta->array[idx + i]);
-        else if (compareWeights(&ac->ta->array[idx + i], pqGetMax(pq)) > 0)
+        else if (compareWeights(&ac->ta->array[idx + i], pqGetMax(pq)) < 0)
             pqReplaceMax(pq, &ac->ta->array[idx + i]);
     }
 

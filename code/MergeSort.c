@@ -81,10 +81,10 @@ static void mergeSort(void *array, size_t length, int (*compare)(const void *, s
     size_t *tmp = (size_t *)malloc(length * sizeof(size_t));
     // idx stores the current state of the *array
     size_t *idx = (size_t *)malloc(length * sizeof(size_t));
-    // pos stores the inverse mapping of idx
-    size_t *pos = (size_t *)malloc(length * sizeof(size_t));
+    // inv_idx stores the inverse mapping of idx
+    size_t *inv_idx = (size_t *)malloc(length * sizeof(size_t));
 
-    if (tmp == NULL || idx == NULL || pos == NULL)
+    if (tmp == NULL || idx == NULL || inv_idx == NULL)
     {
         fprintf(stderr, "MEMORY ALLOCATION ERROR !\n");
         exit(1);
@@ -94,7 +94,7 @@ static void mergeSort(void *array, size_t length, int (*compare)(const void *, s
     {
         idx[i] = i;
         tmp[i] = i;
-        pos[i] = i;
+        inv_idx[i] = i;
     }
 
     mergeS(array, tmp, 0, length, compare);
@@ -103,8 +103,8 @@ static void mergeSort(void *array, size_t length, int (*compare)(const void *, s
     {
         // tmp[i] = index of the element (in the original array) that should be placed at position i in the sorted array
         size_t orig = tmp[i];
-        // pos[origin] = current position of this element in the array
-        size_t j = pos[orig];
+        // inv_idx[origin] = current position of this element in the array
+        size_t j = inv_idx[orig];
 
         if (j != i)
         {
@@ -114,12 +114,12 @@ static void mergeSort(void *array, size_t length, int (*compare)(const void *, s
 
             idx[j] = displaced;
             idx[i] = orig;
-            pos[displaced] = j;
-            pos[orig] = i;
+            inv_idx[displaced] = j;
+            inv_idx[orig] = i;
         }
     }
     free(tmp);
-    free(pos);
+    free(inv_idx);
     free(idx);
 }
 void sort(void *array, size_t length, int (*compare)(const void *, size_t i, size_t j), void (*swap)(void *array, size_t i, size_t j))
